@@ -14,15 +14,27 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ClockworkSupport
 {
 	protected $app;
+	protected $legacy;
 
-	public function __construct(Application $app)
+	public function __construct(Application $app, $legacy)
 	{
 		$this->app = $app;
+		$this->legacy = $legacy;
 	}
 
 	public function getConfig($key, $default = null)
 	{
-		return $this->app['config']->get("clockwork.{$key}", $default);
+		if ($this->legacy) {
+			if ($this->app['config']->has("clockwork::clockwork.{$key}")) {
+				// try to look for a value from clockwork.php configuration file first
+				return $this->app['config']->get("clockwork::clockwork.{$key}");
+			} else {
+				// try to look for a value from config.php (pre 1.7) or return the default value
+				return $this->app['config']->get("clockwork::config.{$key}", $default);
+			}
+		} else {
+			return $this->app['config']->get("clockwork.{$key}", $default);
+		}
 	}
 
 	public function getData($id = null, $direction = null, $count = null)

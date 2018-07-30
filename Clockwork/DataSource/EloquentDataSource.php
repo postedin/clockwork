@@ -5,8 +5,9 @@ use Clockwork\Request\Request;
 use Clockwork\Support\Laravel\Eloquent\ResolveModelScope;
 use Clockwork\Support\Laravel\Eloquent\ResolveModelLegacyScope;
 use Clockwork\Support\Laravel\Eloquent\ResolveModelOldScope;
-use Illuminate\Database\ConnectionResolverInterface;
-use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
+
+use Illuminate\Database\DatabaseManager;
+use Illuminate\Events\Dispatcher as EventDispatcher;
 
 /**
  * Data source for Eloquent (Laravel ORM), provides database queries
@@ -31,7 +32,7 @@ class EloquentDataSource extends DataSource
 	/**
 	 * Create a new data source instance, takes a database manager and an event dispatcher as arguments
 	 */
-	public function __construct(ConnectionResolverInterface $databaseManager, EventDispatcher $eventDispatcher)
+	public function __construct(DatabaseManager $databaseManager, EventDispatcher $eventDispatcher)
 	{
 		$this->databaseManager = $databaseManager;
 		$this->eventDispatcher = $eventDispatcher;

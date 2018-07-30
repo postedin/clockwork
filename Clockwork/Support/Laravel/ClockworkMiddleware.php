@@ -1,6 +1,6 @@
 <?php namespace Clockwork\Support\Laravel;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Application;
 
 class ClockworkMiddleware
 {
